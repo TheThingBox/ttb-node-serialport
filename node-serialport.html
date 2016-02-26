@@ -1,0 +1,113 @@
+<!--
+  Copyright 2013,2014 IBM Corp.
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  http://www.apache.org/licenses/LICENSE-2.0
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<script type="text/x-red" data-template-name="ttb serial in">
+    <div class="form-row node-input-serial">
+        <label for="node-input-serial"><i class="fa fa-random"></i> <span data-i18n="node-serialport.serialport"></span></label>
+        <input type="text" id="node-input-serial">
+    </div>
+
+    <div class="form-row">
+        <span data-i18n="node-serialport.repeat"></span>
+        <input style="width: 40px" id="node-input-intervalCount" value="0"></input>
+        <select style="width: 120px" id="node-input-intervalUnits">
+            <option value="s" data-i18n="node-serialport.s">seconds</option>
+            <option value="m" data-i18n="node-serialport.m">minutes</option>
+            <option value="h" data-i18n="node-serialport.h">hours</option>
+        </select><br/>
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="node-serialport.name"></span></label>
+        <input type="text" id="node-input-name" data-i18n="[placeholder]node-serialport.name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="ttb serial in">
+    <p>Reads data from a local serial port.</p>
+    <p>If the port into the configuration don't start by '/dev/', search for a device with this key</p>
+    <p>Can either <ul><li>wait for a "split" character (default \n). Also accepts hex notation (0x0a).</li>
+    <li>Wait for a timeout in milliseconds for the first character received</li>
+    <li>Wait to fill a fixed sized buffer</li></ul></p>
+    <p>It then outputs <code>msg.payload</code> as either a UTF8 ascii string or a binary Buffer object.</p>
+    <p>If no split character is specified, or a timeout or buffer size of 0, then a stream of single characters is sent - again either as ascii chars or size 1 binary buffers.</p>
+    <p>The second output is dedicated for error</p>
+    <p>On error, you can set the reconnection attempt interval at device</p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('ttb serial in',{
+        category: 'input',
+        defaults: {
+            name: {name:""},
+            serial: {type:"serial-port",required:true},
+            intervalCount:{value:""},
+            intervalUnits:{value:"s"}
+        },
+        color:"BurlyWood",
+        inputs:0,
+        outputs:2,
+        icon: "serial.png",
+        label: function() {
+            return this.name|| "usb serial";
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        },
+        oneditprepare: function() {
+            $("#node-input-intervalCount").spinner({
+                min:0
+            });
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="ttb serial out">
+    <div class="form-row node-input-serial">
+        <label for="node-input-serial"><i class="fa fa-random"></i> <span data-i18n="node-serialport.serialport"></span></label>
+        <input type="text" id="node-input-serial">
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="node-serialport.name"></span></label>
+        <input type="text" id="node-input-name" data-i18n="[placeholder]node-serialport.name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="ttb serial out">
+    <p>Provides a connection to an outbound serial port.</p>
+    <p>If the port into the configuration don't start by '/dev/', search for a device with this key</p>
+    <p>Only the <code>msg.payload</code> is sent.</p>
+    <p>Optionally the new line character used to split the input can be appended to every message sent out to the serial port.</p>
+    <p>Binary payloads can be sent by using a Buffer object.</p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('ttb serial out',{
+        category: 'output',
+        defaults: {
+            name: {name:""},
+            serial: {type:"serial-port",required:true}
+        },
+        color:"BurlyWood",
+        inputs:1,
+        outputs:0,
+        icon: "serial.png",
+        align: "right",
+        label: function() {
+            return this.name|| "usb serial";
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        }
+    });
+</script>

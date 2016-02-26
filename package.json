@@ -1,0 +1,25 @@
+{
+  "name": "ttb-node-serialport",
+  "version": "0.0.1",
+  "description": "a fork of node-red-node-serialport, this node accept a keyword in serial config to find a device instead of a path",
+  "dependencies": {
+    "serialport": "1.7.*",
+    "async": "0.9.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TheThingBox/ttb-node-serialport"
+  },
+  "keywords": [
+    "node-red",
+    "serial",
+    "ttb",
+    "thethingbox",
+    "TimeSquAir"
+  ],
+  "node-red": {
+    "nodes": {
+      "ttb-node-serialport": "node-serialport.js"
+    }
+  }
+}

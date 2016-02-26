@@ -1,0 +1,19 @@
+{
+    "node-serialport": {
+        "name": "Nom",
+        "serialport":"Serial Port",
+        "repeat":"Répéter l'erreur toutes les : ",
+        "s":"secondes",
+        "m":"minutes",
+        "h":"heures",
+        "onopen": "serialport __port__ ouvert sur __baud__ baud __config__",
+        "errors": {
+            "missing-conf": "configuration du serialport manquante",
+            "serial-port": "serialport",
+            "error": "serialport __port__ erreur: __error__",
+            "unexpected-close": "serialport __port__ fermé de manière inattendue",
+            "disconnected": "serialport __port__ déconnecté",
+            "closed": "serialport __port__ fermé"
+        }
+    }
+}
