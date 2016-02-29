@@ -57,6 +57,9 @@
         <li>ID_SERIAL</li>
         <li>ID_SERIAL_SHORT</li>
     </ul>
+    <p>To have access to those fields of your device do : <code>ls /dev/serial/by-path/</code> for listing the several connected devices, copy the one you want to have fields</p>
+    <p>Then, do <code>/sbin/udevadm info --query=property -p $(/sbin/udevadm info -q path -n /dev/serial/by-path/*****)</code></p>
+    <p>Instead of *****, paste the device's path you had copied</p>
 </script>
 
 <script type="text/javascript">
@@ -117,6 +120,9 @@
         <li>ID_SERIAL</li>
         <li>ID_SERIAL_SHORT</li>
     </ul>
+    <p>To have access to those fields of your device do : <code>ls /dev/serial/by-path/</code> for listing the several connected devices, copy the one you want to have fields</p>
+    <p>Then, do <code>/sbin/udevadm info --query=property -p $(/sbin/udevadm info -q path -n /dev/serial/by-path/*****)</code></p>
+    <p>Instead of *****, paste the device's path you had copied</p>
 </script>
 
 <script type="text/javascript">
