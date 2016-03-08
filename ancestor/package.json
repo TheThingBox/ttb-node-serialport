@@ -1,0 +1,52 @@
+{
+  "name": "node-red-node-serialport",
+  "version": "0.0.2",
+  "description": "Node-RED nodes to talk to an serial port",
+  "dependencies": {
+    "serialport": "1.7.*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/node-red/node-red-nodes/tree/master/io/serialport"
+  },
+  "license": "Apache-2.0",
+  "keywords": [
+    "node-red",
+    "serial"
+  ],
+  "node-red": {
+    "nodes": {
+      "serialport": "25-serial.js"
+    }
+  },
+  "author": {
+    "name": "Dave Conway-Jones",
+    "email": "ceejay@vnet.ibm.com",
+    "url": "http://nodered.org"
+  },
+  "_id": "node-red-node-serialport@0.0.2",
+  "scripts": {},
+  "_shasum": "f5d17ae8b413e0fa36570927c48708736331aacd",
+  "_from": "node-red-node-serialport@0.0.*",
+  "_npmVersion": "1.4.28",
+  "_npmUser": {
+    "name": "dceejay",
+    "email": "ceejay@vnet.ibm.com"
+  },
+  "maintainers": [
+    {
+      "name": "dceejay",
+      "email": "ceejay@vnet.ibm.com"
+    },
+    {
+      "name": "knolleary",
+      "email": "nick.oleary@gmail.com"
+    }
+  ],
+  "dist": {
+    "shasum": "f5d17ae8b413e0fa36570927c48708736331aacd",
+    "tarball": "http://registry.npmjs.org/node-red-node-serialport/-/node-red-node-serialport-0.0.2.tgz"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/node-red-node-serialport/-/node-red-node-serialport-0.0.2.tgz"
+}
