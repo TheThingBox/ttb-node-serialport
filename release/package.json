@@ -1,10 +1,9 @@
 {
   "name": "ttb-node-serialport",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "a fork of node-red-node-serialport, this node accept a keyword in serial config to find a device instead of a path",
   "dependencies": {
-    "serialport": "2.0.6",
-    "async": "0.9.0"
+    "serialport": "4.0.6"
   },
   "repository": {
     "type": "git",
