@@ -18,11 +18,7 @@ module.exports = function(RED) {
     "use strict";
     var settings = RED.settings;
     var events = require("events");
-    var async = require("async");
-    var fs = require("fs");
-    var path = require("path");
-    var exec = require('child_process').exec;
-    var serialp = require("serialport");
+    var Serialport = require("serialport");
     var bufMaxSize = 32768;  // Max serial buffer size, for inputs...
 
     function TTBSerialOutNode(n) {
@@ -259,19 +255,20 @@ module.exports = function(RED) {
             write: function(m,cb) { this.serial.write(m,cb); },
         }
         var setupSerial = function(cbSetup) {
-            listUnix(function(err,data){
+            Serialport.list(function(err,data){
                 if (!err &&port.indexOf("/dev/") != 0){                        
                     obj._port = getDevPath(data,port);
                 } else {
                     obj._port = port;
                 }
                 obj.serial = new serialp.SerialPort(obj._port,{
-                    baudrate: baud,
-                    databits: databits,
+                    baudRate: baud,
+                    dataBits: databits,
                     parity: parity,
-                    stopbits: stopbits,
-                    parser: serialp.parsers.raw
-                },true, function(err, results) {                                
+                    stopBits: stopbits,
+                    parser: Serialport.parsers.raw,
+                    autoOpen: true
+                }, function(err, results) {                                
                     obj._closing = false;
                     obj.repeatError = repeatError;
                     if (err) {                              
@@ -324,88 +321,6 @@ module.exports = function(RED) {
 
         setupSerial(function(connection){
             cbConnection(connection);
-        });
-    }
-
-    function listUnix(callback) {
-        function udev_parser(udev_output, callback) {
-            function udev_output_to_json(output) {
-                var result = {};
-                var lines = output.split('\n');
-                for (var i = 0; i < lines.length; i++) {
-                    var line = lines[i].trim();
-                    if (line !== '') {
-                        var line_parts = lines[i].split('=');
-                        result[line_parts[0].trim()] = line_parts[1].trim();
-                    }
-                }
-                return result;
-            }
-            var as_json = udev_output_to_json(udev_output);
-            var pnpId = as_json.DEVLINKS.split(' ')[0];
-            pnpId = pnpId.substring(pnpId.lastIndexOf('/') + 1);
-            var port = {
-                comName: as_json.DEVNAME,
-                manufacturer: as_json.ID_VENDOR,
-                manufacturerEnc: as_json.ID_VENDOR_ENC,
-                product: as_json.ID_MODEL,
-                productEnc: as_json.ID_MODEL_ENC,
-                serialNumber: as_json.ID_SERIAL,
-                shortSerialNumber: as_json.ID_SERIAL_SHORT,
-                pnpId: pnpId,
-                vendorId: '0x' + as_json.ID_VENDOR_ID,
-                productId: '0x' + as_json.ID_MODEL_ID,
-                modelFromDatabase: as_json.ID_MODEL_FROM_DATABASE,
-                vendorFromDatabase: as_json.ID_VENDOR_FROM_DATABASE
-            };
-
-            callback(null, port);
-        }
-
-        var dirName =  '/dev/serial/by-path';
-
-        fs.readdir(dirName, function (err, files) {
-            if (err) {
-                // if this directory is not found this could just be because it's not plugged in
-                if (err.errno === 34) {
-                    return callback(null, []);
-                }
-
-                if (callback) {
-                    callback(err);
-                } else {
-                    factory.emit('error', err);
-                }
-                return;
-            }
-
-            async.map(files, function (file, callback) {
-                var fileName = path.join(dirName, file);
-                fs.readlink(fileName, function (err, link) {
-                    if (err) {
-                        if (callback) {
-                            callback(err);
-                        } else {
-                            factory.emit('error', err);
-                        }
-                        return;
-                    }
-
-                    link = path.resolve(dirName, link);
-                    exec('/sbin/udevadm info --query=property -p $(/sbin/udevadm info -q path -n ' + link + ')', function (err, stdout) {
-                        if (err) {
-                            if (callback) {
-                                callback(err);
-                            } else {
-                                factory.emit('error', err);
-                            }
-                            return;
-                        }
-
-                        udev_parser(stdout, callback);
-                    });
-                });
-            }, callback);
         });
     }
 
