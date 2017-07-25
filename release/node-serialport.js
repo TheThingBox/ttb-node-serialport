@@ -261,7 +261,7 @@ module.exports = function(RED) {
                 } else {
                     obj._port = port;
                 }
-                obj.serial = new serialp.SerialPort(obj._port,{
+                obj.serial = new Serialport.SerialPort(obj._port,{
                     baudRate: baud,
                     dataBits: databits,
                     parity: parity,
